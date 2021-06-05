@@ -1,0 +1,31 @@
+steps:
+  - id: "Up docker-compose"
+    name: "docker/compose"
+    args: ["-f", "docker-compose.prod.yaml", "up", "-d", "app", "elasticsearch"]
+
+  - id: "Chown in /home/node/app"
+    name: "docker"
+    args: ["exec", "-u", "root", "-t", "app", "chown", "-R", "node:node", "."]
+
+  - id: "Waiting elasticsearch"
+    name: "docker/compose"
+    args:
+      [
+        "run",
+        "dockerize",
+        "dockerize",
+        "-wait",
+        "http://dockerize:9200",
+        "-wait",
+        "http://app:3001",
+        "-timeout",
+        "120s",
+      ]
+
+  - id: "Run tests"
+    name: "docker"
+    args: ["exec", "-t", "app", "npm", "test"]
+
+  - id: "Run build"
+    name: "docker"
+    args: ["exec", "-t", "app", "npm", "build"]

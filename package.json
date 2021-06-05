@@ -1,0 +1,98 @@
+{
+  "name": "micro-catalog",
+  "version": "1.0.0",
+  "description": "codeeducation microservice devops",
+  "keywords": [
+    "loopback-application",
+    "loopback"
+  ],
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "engines": {
+    "node": ">=10.16"
+  },
+  "scripts": {
+    "build": "lb-tsc",
+    "build:watch": "lb-tsc --watch",
+    "lint": "npm run prettier:check && npm run eslint",
+    "lint:fix": "npm run eslint:fix && npm run prettier:fix",
+    "prettier:cli": "lb-prettier \"**/*.ts\" \"**/*.js\"",
+    "prettier:check": "npm run prettier:cli -l",
+    "prettier:fix": "npm run prettier:cli --write",
+    "eslint": "lb-eslint --report-unused-disable-directives .",
+    "eslint:fix": "npm run eslint --fix",
+    "pretest": "npm run rebuild",
+    "test": "lb-mocha --timeout 15000 --allow-console-logs \"dist/__tests__\"",
+    "posttest": "npm run lint",
+    "test:dev": "lb-mocha --timeout 15000 --allow-console-logs dist/__tests__/**/*.js && npm run posttest",
+    "docker:build": "docker build -t micro-catalog .",
+    "docker:run": "docker run -p 3000:3000 -d micro-catalog",
+    "premigrate": "npm run build",
+    "migrate": "node ./dist/migrate",
+    "preopenapi-spec": "npm run build",
+    "openapi-spec": "node ./dist/openapi-spec",
+    "rebuild": "npm run clean && npm run build",
+    "prestart": "npm run rebuild",
+    "start": "node -r source-map-support/register .",
+    "clean": "lb-clean dist *.tsbuildinfo .eslintcache",
+    "dev": "nodemon server/server.js --watch common --watch server",
+    "console": "node dist/console.js"
+  },
+  "repository": {
+    "type": "git"
+  },
+  "author": "Newerton Vargas de Araujo <contact@newerton.com>",
+  "license": "MIT",
+  "files": [
+    "README.md",
+    "dist",
+    "src",
+    "!*/__tests__"
+  ],
+  "dependencies": {
+    "@loopback/boot": "^3.4.0",
+    "@loopback/context": "^3.16.0",
+    "@loopback/core": "^2.16.0",
+    "@loopback/openapi-v3": "^5.3.0",
+    "@loopback/repository": "^3.6.0",
+    "@loopback/rest": "^9.3.0",
+    "@loopback/rest-crud": "^0.8.21",
+    "@loopback/rest-explorer": "^3.3.0",
+    "@loopback/service-proxy": "^3.2.0",
+    "amqp-connection-manager": "^3.2.2",
+    "amqplib": "^0.5.6",
+    "class-transformer": "^0.4.0",
+    "debug": "^4.3.1",
+    "dotenv": "^8.6.0",
+    "lodash": "^4.17.21",
+    "loopback-connector-esv6": "https://github.com/codeedu/loopback-connector-elastic-search/tarball/master"
+  },
+  "devDependencies": {
+    "@loopback/build": "^6.4.0",
+    "@loopback/eslint-config": "^10.2.0",
+    "@loopback/testlab": "^3.4.0",
+    "@types/amqp-connection-manager": "^2.0.10",
+    "@types/amqplib": "^0.5.17",
+    "@types/lodash": "^4.14.170",
+    "@types/node": "^10.17.60",
+    "@types/swagger-ui-dist": "^3.0.5",
+    "@typescript-eslint/eslint-plugin": "^4.26.0",
+    "@typescript-eslint/parser": "^4.26.0",
+    "eslint": "^7.27.0",
+    "eslint-config-prettier": "^7.2.0",
+    "eslint-plugin-eslint-plugin": "^2.3.0",
+    "eslint-plugin-mocha": "^8.2.0",
+    "source-map-support": "^0.5.19",
+    "ts-node": "^8.8.2",
+    "tsconfig-paths": "^3.9.0",
+    "typescript": "^4.1.5"
+  },
+  "nodemonConfig": {
+    "verbose": true,
+    "watch": [
+      "src/"
+    ],
+    "ext": ".ts",
+    "exec": "npm start"
+  }
+}
