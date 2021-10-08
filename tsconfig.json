@@ -3,12 +3,11 @@
   "extends": "@loopback/build/config/tsconfig.common.json",
   "compilerOptions": {
     "outDir": "dist",
-    "rootDir": "src"
+    "rootDir": "src",
+    "experimentalDecorators": true
   },
   "include": [
     "src",
-    "*.env",
-    "*.js",
-    "*.ts"
+    "*.env"
   ]
 }

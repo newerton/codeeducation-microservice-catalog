@@ -31,4 +31,7 @@ module.exports = {
       },
     ],
   },
+  jwt: {
+    secret: process.env.JWT_PUBLIC_KEY,
+  },
 };

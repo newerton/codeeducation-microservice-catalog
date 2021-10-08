@@ -13,13 +13,13 @@ import {clone} from 'lodash';
 export abstract class DefaultFilter<
   MT extends object = AnyObject,
 > extends FilterBuilder<MT> {
-  dFilter: Filter<MT> | null;
+  defaultWhere: Where<MT> | null | undefined;
   constructor(f?: Filter<MT>) {
     super(f);
     const dFilter = this.defaultFilter();
-    this.dFilter = dFilter ? clone(dFilter.filter) : null;
+    this.defaultWhere = dFilter ? clone(dFilter.filter.where) : null;
 
-    this.filter = {};
+    this.filter.where = {};
   }
 
   protected defaultFilter(): DefaultFilter<MT> | void {}
@@ -80,6 +80,8 @@ export abstract class DefaultFilter<
   }
 
   build() {
-    return this.dFilter ? this.impose(this.dFilter).filter : this.filter;
+    return this.defaultWhere
+      ? this.impose(this.defaultWhere).filter
+      : this.filter;
   }
 }

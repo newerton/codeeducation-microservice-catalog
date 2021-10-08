@@ -1,12 +1,5 @@
-const application = require('./dist');
-const config = require('./config');
-
-module.exports = application;
-
-if (require.main === module) {
-  // Run the application
-  application.main(config).catch((err) => {
-    console.error('Cannot start the application.', err);
-    process.exit(1);
-  });
-}
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = require("tslib");
+tslib_1.__exportStar(require("./src"), exports);
+//# sourceMappingURL=index.js.map
